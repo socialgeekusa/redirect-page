@@ -1,44 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Redirecting...</title>
   <script>
-    window.onload = function() {
-      let ua = navigator.userAgent || navigator.vendor || window.opera;
-      // Detect in-app browsers
-      if (/instagram|fbav|tiktok|messenger/i.test(ua)) {
-        // Try to force Safari or Chrome
-        let target = "https://spicey.link/zaddymaxy";
-        let chromeIntent = "googlechrome://navigate?url=" + encodeURIComponent(target);
-        let safariIntent = "x-web-search://?" + encodeURIComponent(target);
+    window.onload = function () {
+      let target = "https://onlyfans.com/zaddymaxy";
+      let ua = navigator.userAgent.toLowerCase();
 
-        // Android first try Chrome
-        if (/android/i.test(ua)) {
-          window.location.href = chromeIntent;
-          setTimeout(() => {
-            window.location.href = target;
-          }, 1000);
+      // Detect Instagram/TikTok/Facebook WebView
+      let inAppBrowser = ua.includes("instagram") || ua.includes("tiktok") || ua.includes("fbav") || ua.includes("fb_iab");
+
+      if (inAppBrowser) {
+        // Android: Chrome Intent
+        if (ua.includes("android")) {
+          window.location.href = "intent://" + target.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+          setTimeout(() => { window.location.href = target; }, 1500);
         } 
-        // iOS try Safari
-        else if (/iphone|ipad|ipod/i.test(ua)) {
-          window.location.href = safariIntent;
-          setTimeout(() => {
-            window.location.href = target;
-          }, 1000);
+        // iOS: Safari fallback
+        else if (ua.includes("iphone") || ua.includes("ipad")) {
+          window.location.href = "googlechrome://" + target.replace(/^https?:\/\//, "");
+          setTimeout(() => { window.location.href = target; }, 1500);
         } 
-        // Fallback
+        // Other: fallback
         else {
           window.location.href = target;
         }
       } else {
-        window.location.replace("https://spicey.link/zaddymaxy");
+        // Regular browsers
+        window.location.href = target;
       }
     };
   </script>
 </head>
-<body>
-  <p>Redirecting you to OnlyFans...</p>
+<body style="background:black;color:white;text-align:center;margin-top:50px;">
+  <h1>Redirecting to OnlyFans…</h1>
 </body>
 </html>
