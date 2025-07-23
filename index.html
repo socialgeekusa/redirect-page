@@ -7,18 +7,38 @@
   <script>
     window.onload = function() {
       let ua = navigator.userAgent || navigator.vendor || window.opera;
-      if (/instagram|fbav|tiktok/i.test(ua)) {
-        window.location.href = "googlechrome://navigate?url=https://www.onlyfans.com/zaddymaxy"; // Android
-        setTimeout(() => {
-          window.location.href = "https://www.onlyfans.com/zaddymaxy"; // Fallback
-        }, 1000);
+      // Detect in-app browsers
+      if (/instagram|fbav|tiktok|messenger/i.test(ua)) {
+        // Try to force Safari or Chrome
+        let target = "https://onlyfans.com/zad";
+        let chromeIntent = "googlechrome://navigate?url=" + encodeURIComponent(target);
+        let safariIntent = "x-web-search://?" + encodeURIComponent(target);
+
+        // Android first try Chrome
+        if (/android/i.test(ua)) {
+          window.location.href = chromeIntent;
+          setTimeout(() => {
+            window.location.href = target;
+          }, 1000);
+        } 
+        // iOS try Safari
+        else if (/iphone|ipad|ipod/i.test(ua)) {
+          window.location.href = safariIntent;
+          setTimeout(() => {
+            window.location.href = target;
+          }, 1000);
+        } 
+        // Fallback
+        else {
+          window.location.href = target;
+        }
       } else {
-        window.location.replace("https://www.onlyfans.com/zaddymaxy");
+        window.location.replace("https://onlyfans.com/zad");
       }
-    }
+    };
   </script>
 </head>
 <body>
-  <p>Redirecting you...</p>
+  <p>Redirecting you to OnlyFans...</p>
 </body>
 </html>
